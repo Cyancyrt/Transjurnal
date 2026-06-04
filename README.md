@@ -1,21 +1,15 @@
-<p align="center">
+<div align="center">
 
 <img
-    src="docs/images/TEMA.png"
-    width="180"
-    alt="ScholarBridge Logo">
+src="docs/screenshots/logo.png"
+width="220"
+alt="ScholarBridge Logo">
 
-</p>
+# ScholarBridge
 
-<h1 align="center">
-  ScholarBridge
-</h1>
+Connecting Researchers with Verified Academic Scholars
 
-<p align="center">
-  Connecting Researchers with Verified Academic Scholars
-</p>
-
-<p align="center">
+</div>
 
 <img
     src="https://img.shields.io/badge/Laravel-11-red"
