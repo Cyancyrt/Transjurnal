@@ -1,7 +1,7 @@
 <div align="center">
 
 <img
-src="docs/screenshots/logo.png"
+src="docs/images/TEMA.png"
 width="220"
 alt="ScholarBridge Logo">
 
