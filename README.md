@@ -1,3 +1,46 @@
+<p align="center">
+
+<img
+    src="docs/images/TEMA.png"
+    width="180"
+    alt="ScholarBridge Logo">
+
+</p>
+
+<h1 align="center">
+  ScholarBridge
+</h1>
+
+<p align="center">
+  Connecting Researchers with Verified Academic Scholars
+</p>
+
+<p align="center">
+
+<img
+    src="https://img.shields.io/badge/Laravel-11-red"
+    alt="Laravel">
+
+<img
+    src="https://img.shields.io/badge/PHP-8.2-blue"
+    alt="PHP">
+
+<img
+    src="https://img.shields.io/badge/TailwindCSS-3.x-cyan"
+    alt="Tailwind">
+
+</p>
+
+<br>
+
+<p align="center">
+
+<img
+    src="docs/screenshots/dashboard.png"
+    width="90%"
+    alt="Dashboard">
+
+</p>
 # ScholarBridge
 
 ScholarBridge is a web-based academic journal translation marketplace that connects researchers with verified scholars and translators.
