@@ -3,9 +3,9 @@
 <img
 src="docs/images/TEMA.png"
 width="220"
-alt="ScholarBridge Logo">
+alt="TransJurnal Logo">
 
-# ScholarBridge
+# TransJurnal
 
 Connecting Researchers with Verified Academic Scholars
 
@@ -35,9 +35,9 @@ Connecting Researchers with Verified Academic Scholars
     alt="Dashboard">
 
 </p>
-# ScholarBridge
+# TransJurnal
 
-ScholarBridge is a web-based academic journal translation marketplace that connects researchers with verified scholars and translators.
+TransJurnal is a web-based academic journal translation marketplace that connects researchers with verified scholars and translators.
 
 The platform allows users to submit journal translation requests, discover qualified scholars, negotiate translation opportunities, and monitor project progress through a centralized system.
 
@@ -286,13 +286,13 @@ status
 Clone repository:
 
 ```bash
-git clone https://github.com/yourusername/scholarbridge.git
+git clone https://github.com/yourusername/TransJurnal.git
 ```
 
 Move into project:
 
 ```bash
-cd scholarbridge
+cd TransJurnal
 ```
 
 Install dependencies:
@@ -316,7 +316,7 @@ php artisan key:generate
 Configure database inside:
 
 ```env
-DB_DATABASE=scholarbridge
+DB_DATABASE=TransJurnal
 DB_USERNAME=root
 DB_PASSWORD=
 ```
@@ -341,7 +341,7 @@ php artisan serve
 
 ```text
 Email:
-admin@scholarbridge.test
+admin@TransJurnal.test
 
 Password:
 password
@@ -350,10 +350,10 @@ password
 ### Scholars
 
 ```text
-translator0@scholarbridge.test
-translator1@scholarbridge.test
+translator0@TransJurnal.test
+translator1@TransJurnal.test
 ...
-translator7@scholarbridge.test
+translator7@TransJurnal.test
 
 Password:
 password
@@ -362,10 +362,10 @@ password
 ### Users
 
 ```text
-user1@scholarbridge.test
-user2@scholarbridge.test
+user1@TransJurnal.test
+user2@TransJurnal.test
 ...
-user20@scholarbridge.test
+user20@TransJurnal.test
 
 Password:
 password
