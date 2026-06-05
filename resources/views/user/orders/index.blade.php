@@ -1,506 +1,227 @@
-@extends('layouts.admin')
-
-@section('page-title', 'Orders')
+@extends('layouts.app')
 
 @section('content')
 
-{{-- HEADER --}}
+<div class="space-y-8">
 
-<div class="mb-8">
+    {{-- Header --}}
+    <div class="bg-gradient-to-r from-indigo-600 to-blue-600 rounded-3xl p-10 text-white">
 
-    <div
-    class="flex flex-col lg:flex-row
-    lg:items-center
-    lg:justify-between
-    gap-4">
+        <div class="flex justify-between items-center">
 
-        <div>
+            <div>
 
-            <h1
-            class="text-3xl font-bold
-            text-slate-800">
+                <h1 class="text-4xl font-bold">
+                    My Orders
+                </h1>
 
-                Orders Management
+                <p class="mt-3 text-indigo-100">
+                    Track and manage all your translation projects.
+                </p>
 
-            </h1>
+            </div>
 
-            <p
-            class="text-slate-500 mt-2">
-
-                Monitor all translation transactions across the platform.
-
-            </p>
+            <a
+                href="{{ route('user.orders.create') }}"
+                class="bg-white text-indigo-700 px-6 py-3 rounded-xl font-semibold"
+            >
+                New Order
+            </a>
 
         </div>
 
     </div>
 
-</div>
+    {{-- Orders --}}
+    <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
 
-{{-- STATS --}}
+        @forelse($orders as $order)
 
-<div
-class="grid
-grid-cols-2
-xl:grid-cols-5
-gap-5
-mb-8">
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
 
-    <div
-    class="bg-white rounded-2xl
-    shadow-sm
-    border border-slate-200
-    p-5">
+                <div class="p-6 border-b">
 
-        <p class="text-sm text-slate-500">
+                    <div class="flex justify-between items-start">
 
-            Total Orders
+                        <h2 class="text-xl font-bold">
 
-        </p>
+                            {{ $order->title }}
 
-        <h2
-        class="text-3xl font-bold
-        mt-2">
+                        </h2>
 
-            {{ $stats['total'] }}
+                        @switch($order->status)
 
-        </h2>
+                            @case('completed')
 
-    </div>
+                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
+                                    Completed
+                                </span>
 
-    <div
-    class="bg-white rounded-2xl
-    shadow-sm
-    border border-slate-200
-    p-5">
+                                @break
 
-        <p class="text-sm text-slate-500">
+                            @case('in_progress')
 
-            Open
+                                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+                                    In Progress
+                                </span>
 
-        </p>
+                                @break
 
-        <h2
-        class="text-3xl font-bold
-        text-orange-500 mt-2">
+                            @case('revision')
 
-            {{ $stats['open'] }}
+                                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm">
+                                    Revision
+                                </span>
 
-        </h2>
+                                @break
 
-    </div>
+                            @case('cancelled')
 
-    <div
-    class="bg-white rounded-2xl
-    shadow-sm
-    border border-slate-200
-    p-5">
+                                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm">
+                                    Cancelled
+                                </span>
 
-        <p class="text-sm text-slate-500">
+                                @break
 
-            In Progress
+                            @default
 
-        </p>
+                                <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm">
+                                    {{ ucfirst($order->status) }}
+                                </span>
 
-        <h2
-        class="text-3xl font-bold
-        text-blue-500 mt-2">
+                        @endswitch
 
-            {{ $stats['in_progress'] }}
+                    </div>
 
-        </h2>
-
-    </div>
-
-    <div
-    class="bg-white rounded-2xl
-    shadow-sm
-    border border-slate-200
-    p-5">
-
-        <p class="text-sm text-slate-500">
-
-            Completed
-
-        </p>
-
-        <h2
-        class="text-3xl font-bold
-        text-green-500 mt-2">
-
-            {{ $stats['completed'] }}
-
-        </h2>
-
-    </div>
-
-    <div
-    class="bg-white rounded-2xl
-    shadow-sm
-    border border-slate-200
-    p-5">
-
-        <p class="text-sm text-slate-500">
-
-            Revenue
-
-        </p>
-
-        <h2
-        class="text-3xl font-bold
-        text-violet-600 mt-2">
-
-            Rp {{ number_format($orders->sum('price')) }}
-
-        </h2>
-
-    </div>
-
-</div>
-
-{{-- FILTER --}}
-
-<div
-class="bg-white rounded-2xl
-shadow-sm border border-slate-200
-p-5 mb-6">
-
-    <form
-    method="GET"
-    action="{{ route('admin.orders.index') }}">
-
-        <div
-        class="flex flex-col
-        md:flex-row
-        gap-3">
-
-            <input
-                type="text"
-                name="search"
-                value="{{ request('search') }}"
-                placeholder="Search order title, field, user..."
-                class="flex-1
-                border border-slate-300
-                rounded-xl
-                px-4 py-3">
-
-            <select
-                name="status"
-                class="border border-slate-300
-                rounded-xl
-                px-4 py-3">
-
-                <option value="all">
-
-                    All Status
-
-                </option>
-
-                <option
-                value="open"
-                {{ request('status') == 'open' ? 'selected' : '' }}>
-
-                    Open
-
-                </option>
-
-                <option
-                value="in_progress"
-                {{ request('status') == 'in_progress' ? 'selected' : '' }}>
-
-                    In Progress
-
-                </option>
-
-                <option
-                value="revision"
-                {{ request('status') == 'revision' ? 'selected' : '' }}>
-
-                    Revision
-
-                </option>
-
-                <option
-                value="completed"
-                {{ request('status') == 'completed' ? 'selected' : '' }}>
-
-                    Completed
-
-                </option>
-
-                <option
-                value="cancelled"
-                {{ request('status') == 'cancelled' ? 'selected' : '' }}>
-
-                    Cancelled
-
-                </option>
-
-            </select>
-
-            <button
-            class="bg-blue-600
-            hover:bg-blue-700
-            text-white
-            px-5 py-3
-            rounded-xl">
-
-                Search
-
-            </button>
-
-        </div>
-
-    </form>
-
-</div>
-
-{{-- TABLE --}}
-
-<div
-class="bg-white
-rounded-2xl
-shadow-sm
-border border-slate-200
-overflow-hidden">
-
-    <div class="overflow-x-auto">
-
-        <table class="w-full">
-
-            <thead>
-
-                <tr
-                class="bg-slate-100
-                text-slate-600
-                text-sm">
-
-                    <th class="p-4 text-left">
-
-                        ID
-
-                    </th>
-
-                    <th class="p-4 text-left">
-
-                        Title
-
-                    </th>
-
-                    <th class="p-4 text-left">
-
-                        Field
-
-                    </th>
-
-                    <th class="p-4 text-left">
-
-                        Client
-
-                    </th>
-
-                    <th class="p-4 text-left">
-
-                        Scholar
-
-                    </th>
-
-                    <th class="p-4 text-center">
-
-                        Requests
-
-                    </th>
-
-                    <th class="p-4 text-left">
-
-                        Status
-
-                    </th>
-
-                    <th class="p-4 text-right">
-
-                        Price
-
-                    </th>
-
-                    <th class="p-4 text-center">
-
-                        Action
-
-                    </th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                @forelse($orders as $order)
-
-                <tr
-                class="border-t
-                hover:bg-slate-50
-                transition">
-
-                    <td class="p-4 font-medium">
-
-                        #{{ $order->id }}
-
-                    </td>
-
-                    <td class="p-4">
-
-                        <div>
-
-                            <p
-                            class="font-medium
-                            text-slate-800">
-
-                                {{ $order->title }}
-
-                            </p>
-
-                            <p
-                            class="text-xs
-                            text-slate-500">
-
-                                {{ $order->source_language }}
-                                →
-                                {{ $order->target_language }}
-
-                            </p>
-
-                        </div>
-
-                    </td>
-
-                    <td class="p-4">
+                    <p class="text-slate-500 mt-2">
 
                         {{ $order->field }}
 
-                    </td>
+                    </p>
 
-                    <td class="p-4">
+                </div>
 
-                        {{ $order->user?->name }}
+                <div class="p-6 space-y-4">
 
-                    </td>
+                    <div class="flex items-center gap-3">
 
-                    <td class="p-4">
+                        <i class="bi bi-briefcase-fill text-slate-400"></i>
 
-                        @if($order->translator)
+                        <span>
 
-                            {{ $order->translator->name }}
-
-                        @else
-
-                            <span
-                            class="text-orange-600
-                            font-medium">
-
-                                Open Market
-
-                            </span>
-
-                        @endif
-
-                    </td>
-
-                    <td
-                    class="p-4 text-center">
-
-                        {{ $order->requests->count() }}
-
-                    </td>
-
-                    <td class="p-4">
-
-                        <span
-                        class="px-3 py-1
-                        rounded-full
-                        text-xs font-medium
-
-                        @if($order->status == 'open')
-                            bg-orange-100 text-orange-700
-                        @elseif($order->status == 'in_progress')
-                            bg-blue-100 text-blue-700
-                        @elseif($order->status == 'revision')
-                            bg-yellow-100 text-yellow-700
-                        @elseif($order->status == 'completed')
-                            bg-green-100 text-green-700
-                        @elseif($order->status == 'cancelled')
-                            bg-red-100 text-red-700
-                        @endif">
-
-                            {{ str_replace('_',' ', ucfirst($order->status)) }}
+                            {{ $order->service?->name }}
 
                         </span>
 
-                    </td>
+                    </div>
 
-                    <td
-                    class="p-4 text-right
-                    font-semibold
-                    text-green-600">
+                    <div class="flex items-center gap-3">
 
-                        Rp {{ number_format($order->price) }}
+                        <i class="bi bi-person-fill text-slate-400"></i>
 
-                    </td>
+                        <span>
 
-                    <td
-                    class="p-4 text-center">
+                            {{ $order->translator?->name ?? 'Waiting for Translator' }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="flex items-center gap-3">
+
+                        <i class="bi bi-translate text-slate-400"></i>
+
+                        <span>
+
+                            {{ $order->source_language }}
+
+                            →
+
+                            {{ $order->target_language }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="flex items-center gap-3">
+
+                        <i class="bi bi-cash-stack text-slate-400"></i>
+
+                        <span>
+
+                            Rp {{ number_format($order->price,0,',','.') }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="px-6 pb-6">
+
+                    <div class="flex gap-3">
 
                         <a
-                        href="{{ route('admin.orders.show',$order) }}"
-                        class="bg-blue-600
-                        hover:bg-blue-700
-                        text-white
-                        px-4 py-2
-                        rounded-lg
-                        text-sm">
-
-                            View
-
+                            href="{{ route('user.orders.show', $order) }}"
+                            class="flex-1 text-center py-3 rounded-xl bg-indigo-600 text-white"
+                        >
+                            View Detail
                         </a>
 
-                    </td>
+                        @if($order->translated_file)
 
-                </tr>
+                            <a
+                                href="{{ asset('storage/' . $order->translated_file) }}"
+                                class="px-4 py-3 rounded-xl bg-green-600 text-white"
+                            >
+                                <i class="bi bi-download"></i>
+                            </a>
 
-                @empty
+                        @endif
 
-                <tr>
+                    </div>
 
-                    <td
-                    colspan="9"
-                    class="p-12
-                    text-center
-                    text-slate-500">
+                </div>
 
-                        No orders found.
+            </div>
 
-                    </td>
+        @empty
 
-                </tr>
+            <div class="col-span-full">
 
-                @endforelse
+                <div class="bg-white rounded-3xl p-16 text-center shadow-sm">
 
-            </tbody>
+                    <i class="bi bi-journal-text text-6xl text-slate-300"></i>
 
-        </table>
+                    <h2 class="text-2xl font-bold mt-6">
+                        No Orders Yet
+                    </h2>
+
+                    <p class="text-slate-500 mt-2">
+                        You haven't created any translation requests.
+                    </p>
+
+                    <a
+                        href="{{ route('user.orders.create') }}"
+                        class="inline-block mt-6 px-6 py-3 bg-indigo-600 text-white rounded-xl"
+                    >
+                        Create Your First Order
+                    </a>
+
+                </div>
+
+            </div>
+
+        @endforelse
+
+    </div>
+
+    <div>
+
+        {{ $orders->links() }}
 
     </div>
 
 </div>
-
-@if($orders->hasPages())
-
-<div class="mt-6">
-
-    {{ $orders->links() }}
-
-</div>
-
-@endif
 
 @endsection

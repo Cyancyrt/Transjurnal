@@ -18,6 +18,9 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ScholarManagementController;
 use App\Http\Controllers\Admin\ServiceManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\User\ScholarController;
+use App\Http\Controllers\User\ServiceController;
+use App\Http\Controllers\User\TranslationController;
 
 Route::get('/', [
     LandingController::class,
@@ -63,6 +66,18 @@ Route::middleware([
         'orders',
         OrderController::class
     );
+    Route::resource(
+        'scholars',
+        ScholarController::class
+    );
+    Route::resource(
+        'services',
+        ServiceController::class
+    );
+    Route::get(
+        '/translations',
+        [OrderController::class, 'completedTranslations']
+    )->name('translations.index');
 });
 
 Route::middleware([
@@ -75,6 +90,15 @@ Route::middleware([
     Route::get('/dashboard',
         [TranslatorDashboardController::class,'index']
     )->name('dashboard');
+    Route::resource(
+        'jobs',
+        \App\Http\Controllers\Translator\JobController::class
+    );
+    Route::resource(
+        'orders',
+        \App\Http\Controllers\Translator\OrderController::class
+    );
+    
 });
 
 Route::middleware([
