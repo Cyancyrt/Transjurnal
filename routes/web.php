@@ -18,9 +18,12 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ScholarManagementController;
 use App\Http\Controllers\Admin\ServiceManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\Translator\JobController;
+use App\Http\Controllers\Translator\OrderController as TranslatorOrderController;
+use App\Http\Controllers\Translator\ProfileController;
+use App\Http\Controllers\Translator\ReviewController;
 use App\Http\Controllers\User\ScholarController;
 use App\Http\Controllers\User\ServiceController;
-use App\Http\Controllers\User\TranslationController;
 
 Route::get('/', [
     LandingController::class,
@@ -92,13 +95,38 @@ Route::middleware([
     )->name('dashboard');
     Route::resource(
         'jobs',
-        \App\Http\Controllers\Translator\JobController::class
+        JobController::class
     );
+    Route::patch(
+        '/jobs/{job}/accept',
+        [JobController::class,'accept']
+    )->name('jobs.accept');
     Route::resource(
         'orders',
-        \App\Http\Controllers\Translator\OrderController::class
+        TranslatorOrderController::class
     );
-    
+    Route::get('/orders/{order}/show',
+        [TranslatorOrderController::class,'show'])
+        ->name('orders.show');
+    Route::get('/orders/{order}/work',
+        [TranslatorOrderController::class,'work'])
+        ->name('orders.work');
+
+    Route::patch('/orders/{order}/status',
+        [TranslatorOrderController::class,'updateStatus'])
+        ->name('orders.status');
+
+    Route::post('/orders/{order}/upload',
+        [TranslatorOrderController::class,'upload'])
+        ->name('orders.upload');
+    Route::resource(
+        'profile',
+        ProfileController::class
+    );
+    Route::resource(
+        'reviews',
+        ReviewController::class
+    );
 });
 
 Route::middleware([

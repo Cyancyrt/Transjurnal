@@ -65,7 +65,12 @@ class Order extends Model
             'service_id'
         );
     }
-
+    public function review()
+    {
+        return $this->hasOne(
+            Review::class
+        );
+    }
     public function requests()
     {
         return $this->hasMany(

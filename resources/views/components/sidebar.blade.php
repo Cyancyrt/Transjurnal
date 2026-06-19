@@ -1,4 +1,16 @@
-<aside class="w-72 bg-slate-900 text-slate-200 h-screen sticky top-0 flex flex-col shadow-xl overflow-y-auto flex-shrink-0">
+<aside class="
+    w-72
+    min-w-[288px]
+    bg-slate-900
+    text-slate-200
+    h-screen
+    sticky
+    top-0
+    flex
+    flex-col
+    shadow-xl
+    overflow-y-auto
+">
     {{-- Brand --}}
     <div class="h-20 px-6 flex items-center border-b border-slate-800">
 
@@ -137,7 +149,7 @@
 
                 </a>
 
-                <a href="{{ route('translator.profile') }}"
+                <a href="{{ route('translator.profile.index') }}"
                    class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition">
 
                     <i class="bi bi-person-badge-fill"></i>

@@ -77,6 +77,22 @@
                         class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
                 </div>
+                <div class="mb-6">
+
+                    <label class="block mb-2 text-sm font-medium">
+                        Login As
+                    </label>
+
+                    <select
+                        name="role"
+                        class="w-full border rounded-lg px-4 py-3">
+
+                        <option value="user">Researcher</option>
+                        <option value="translator">Translator</option>
+
+                    </select>
+
+                </div>
 
                 <button
                     class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold">
